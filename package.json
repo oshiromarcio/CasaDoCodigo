@@ -4,11 +4,16 @@
   "description": "Livraria Casa do Codigo",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js --ignore *.marko.js"
   },
   "author": "Marcio Oshiro",
   "license": "ISC",
   "dependencies": {
-    "express": "4.16.3"
+    "express": "4.16.3",
+    "marko": "4.13.4-1"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.4"
   }
 }
