@@ -17,15 +17,24 @@ module.exports = (app) => {
                     }
                 ))
                 .catch(erro => console.log(erro));
-/*
-        livroDao.lista((erro, results) => {
-            res.marko(
-                require('../views/livros/lista/lista.marko'),
-                {
-                    livros: results
-                }
-            );
-        });
-*/
+    });
+
+    app.get('/livros/form', function(req, res) {
+        res.marko(require('../views/livros/form/form.marko'));
+    });
+
+    app.post('/livros', function(req, res) {
+        const livroDao = new LivroDao(db);
+        livroDao.adiciona(req.body)
+                .then(res.redirect('/livros'))
+                .catch(erro => console.log(erro));
+    });
+
+    app.delete('/livros/:id', function(req,res) {
+        const id = req.params.id;
+        const livroDao = new LivroDao(db);
+        livroDao.remove(id)
+            .then(() => Response.status(200).end())
+            .catch(erro => console.log(erro));
     });
 }
