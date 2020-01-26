@@ -22,25 +22,29 @@ function render(input, out, __component, component, state) {
 
   component_globals_tag({}, out);
 
-  out.w("<h1> Listagem de Livros </h1><table><tr><td>ID</td><td>Título</td><td>Preço</td><td>Editar</td><td>Remover</td></tr>");
+  out.w("<h1> Listagem de Livros </h1><table id=\"livros\"><tr><td>ID</td><td>Título</td><td>Preço</td><td>Editar</td><td>Remover</td></tr>");
 
   var for__12 = 0;
 
   marko_forEach(data.livros, function(livro) {
     var keyscope__13 = "[" + ((for__12++) + "]");
 
-    out.w("<tr><td>" +
+    out.w("<tr id=\"livro_" +
+      marko_escapeXmlAttr(livro.id) +
+      "\"><td>" +
       marko_escapeXml(livro.id) +
       "</td><td>" +
       marko_escapeXml(livro.titulo) +
       "</td><td>" +
       marko_escapeXml(livro.preco) +
-      "</td><td><a href=\"#\">Editar</a></td><td><a href=\"#\" data-ref=\"" +
+      "</td><td><a href=\"/livros/form/" +
+      marko_escapeXmlAttr(livro.id) +
+      "\">Editar</a></td><td><a href=\"#\" data-ref=\"" +
       marko_escapeXmlAttr(livro.id) +
       "\" data-type=\"remocao\">Remover</a></td></tr>");
   });
 
-  out.w("</table><script src=\"./remove-livro.js\"></script>");
+  out.w("</table><script src=\"/estatico/js/remove-livro.js\"></script>");
 
   init_components_tag({}, out);
 
