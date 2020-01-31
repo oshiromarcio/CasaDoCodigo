@@ -5,6 +5,15 @@ const db = require('../../config/database');
 
 class LivroControlador {
 
+    static rotas() {
+        return {
+            lista: '/livros',
+            cadastro: '/livros/form',
+            edicao: '/livros/form/:id',
+            delecao: '/livros/:id'
+        };
+    }
+
     lista() {
         return function(req, res) {
 
@@ -59,7 +68,7 @@ class LivroControlador {
             }
             const livroDao = new LivroDao(db);
             livroDao.adiciona(req.body)
-                    .then(res.redirect('/livros'))
+                    .then(res.redirect(LivroControlador.rotas().lista))
                     .catch(erro => console.log(erro));
         };
     }
@@ -69,7 +78,7 @@ class LivroControlador {
             console.log(req.body);
             const livroDao = new LivroDao(db);
             livroDao.atualiza(req.body)
-                    .then(res.redirect('/livros'))
+                    .then(res.redirect(LivroControlador.rotas().lista))
                     .catch(erro => console.log(erro));
         };
     }
@@ -77,6 +86,7 @@ class LivroControlador {
     remove() {
         return function(req, res) {
             const { id } = req.params;
+            console.log(id);
             const livroDao = new LivroDao(db);
             livroDao.remove(id)
                 .then(() => res.status(200).end())

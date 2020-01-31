@@ -35,7 +35,7 @@ INSERT INTO livros (
     titulo,
     preco,
     descricao
-) SELECT 'Node na prática', 30.0, 'Como desenvolver com Node.' WHERE NOT EXISTS (SELECT * FROM livros WHERE titulo = 'Node na prática')
+) SELECT 'Node na prática', 30.0, 'Como desenvolver com Node.' WHERE NOT EXISTS (SELECT DISTINCT 1 FROM livros WHERE titulo = 'Node na Prática')
 `;
 
 const INSERIR_LIVRO_2 = 
@@ -44,7 +44,7 @@ INSERT INTO livros (
     titulo, 
     preco,
     descricao
-) SELECT 'JavaScript na prática', 40.0, 'Como desenvolver com JavaScript.' WHERE NOT EXISTS (SELECT * FROM livros WHERE titulo = 'JavaScript na prática')
+) SELECT 'JavaScript na prática', 40.0, 'Como desenvolver com JavaScript.' WHERE NOT EXISTS (SELECT DISTINCT 1 FROM livros WHERE titulo = 'JavaScript na prática')
 `;
 
 bd.serialize(() => {

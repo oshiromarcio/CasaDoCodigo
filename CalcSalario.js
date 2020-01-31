@@ -1,4 +1,4 @@
-let salarioBruto = 3000;
+let salarioBruto = 12400;
 let salarioLiquido;
 getSalario(salarioBruto, (resultado) => {
     salarioLiquido = resultado;
