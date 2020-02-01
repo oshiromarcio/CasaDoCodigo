@@ -3,6 +3,8 @@ const { validationResult } = require('express-validator/check');
 const LivroDao = require('../infra/livro-dao');
 const db = require('../../config/database');
 
+const templates = require('../views/templates');
+
 class LivroControlador {
 
     static rotas() {
@@ -20,7 +22,7 @@ class LivroControlador {
             const livroDao = new LivroDao(db);
             livroDao.lista()
                     .then(livros => res.marko(
-                        require('../views/livros/lista/lista.marko'),
+                        templates.livros.lista,
                         {
                             livros
                         }
@@ -36,8 +38,9 @@ class LivroControlador {
     
             livroDao.buscaPorId(id)
                     .then(livro => 
-                        res.marko(  require('../views/livros/form/form.marko'),
-                                    { livro }
+                        res.marko(
+                            templates.livros.form,
+                            { livro }
                         )
                     )
                     .catch(erro => console.log(erro));
@@ -46,22 +49,21 @@ class LivroControlador {
 
     formularioCadastro() {
         return function(req, res) {
-            res.marko(  require('../views/livros/form/form.marko'),
-                        { livro: { } }
+            res.marko(  templates.livros.form,
+                        { livro: {} }
                 );
         }
     }
 
     cadastra() {
         return function(req, res) {
-            console.log(req.body);
             const erros = validationResult(req);
-    
+
             if (!erros.isEmpty()) {
                 return res.marko(
-                        require('../views/livros/form/form.marko'),
+                    templates.livros.form,
                         {
-                            livro: {},
+                            livro: req.body,
                             errosValidacao: erros.array()
                         }
                 );
@@ -75,7 +77,6 @@ class LivroControlador {
 
     edita() {
         return function(req, res) {
-            console.log(req.body);
             const livroDao = new LivroDao(db);
             livroDao.atualiza(req.body)
                     .then(res.redirect(LivroControlador.rotas().lista))
@@ -86,7 +87,6 @@ class LivroControlador {
     remove() {
         return function(req, res) {
             const { id } = req.params;
-            console.log(id);
             const livroDao = new LivroDao(db);
             livroDao.remove(id)
                 .then(() => res.status(200).end())
