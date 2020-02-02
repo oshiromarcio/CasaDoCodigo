@@ -16,7 +16,16 @@ INSERT INTO usuarios (
     nome_completo, 
     email,
     senha
-) SELECT 'Gabriel Leite', 'gabriel@alura.com.br', '123' WHERE NOT EXISTS (SELECT * FROM usuarios WHERE email = 'gabriel@alura.com.br')
+) SELECT 'Gabriel Leite', 'gabriel@alura.com.br', '123' WHERE NOT EXISTS (SELECT DISTINCT 1 FROM usuarios WHERE email = 'gabriel@alura.com.br')
+`;
+
+const INSERIR_USUARIO_2 = 
+`
+INSERT INTO usuarios (
+    nome_completo, 
+    email,
+    senha
+) SELECT 'Marcio Oshiro', 'marcio@alura.com.br', '123' WHERE NOT EXISTS (SELECT DISTINCT 1 FROM usuarios WHERE email = 'marcio@alura.com.br')
 `;
 
 const LIVROS_SCHEMA = 
@@ -51,6 +60,7 @@ bd.serialize(() => {
     bd.run("PRAGMA foreign_keys=ON");
     bd.run(USUARIOS_SCHEMA);
     bd.run(INSERIR_USUARIO_1);
+    bd.run(INSERIR_USUARIO_2);
     bd.run(LIVROS_SCHEMA);
     bd.run(INSERIR_LIVRO_1);
     bd.run(INSERIR_LIVRO_2);

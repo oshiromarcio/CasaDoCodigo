@@ -9,6 +9,7 @@ class LivroControlador {
 
     static rotas() {
         return {
+            autenticadas: '/livros*',
             lista: '/livros',
             cadastro: '/livros/form',
             edicao: '/livros/form/:id',
@@ -77,6 +78,18 @@ class LivroControlador {
 
     edita() {
         return function(req, res) {
+            const erros = validationResult(req);
+
+            if (!erros.isEmpty()) {
+                return res.marko(
+                    templates.livros.form,
+                        {
+                            livro: req.body,
+                            errosValidacao: erros.array()
+                        }
+                );
+            }
+
             const livroDao = new LivroDao(db);
             livroDao.atualiza(req.body)
                     .then(res.redirect(LivroControlador.rotas().lista))
